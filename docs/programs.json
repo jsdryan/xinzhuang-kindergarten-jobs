@@ -1,0 +1,157 @@
+{
+ "checked_at": "2026-10-19 13:46",
+ "upcoming": {
+  "year": 116,
+  "source": "https://child.cyc.edu.tw/modules/tadnews/index.php?nsn=2365",
+  "events": [
+   {
+    "label": "各校簡章公告",
+    "kind": "notice",
+    "start": "2027-04-24",
+    "end": null,
+    "est": true
+   },
+   {
+    "label": "第一階段報名",
+    "kind": "register",
+    "start": "2027-05-11",
+    "end": "2027-06-01",
+    "est": true
+   },
+   {
+    "label": "第二階段報名",
+    "kind": "register",
+    "start": "2027-06-10",
+    "end": "2027-06-17",
+    "est": true
+   }
+  ]
+ },
+ "national": {
+  "115": {
+   "source": "https://child.cyc.edu.tw/modules/tadnews/index.php?nsn=2365",
+   "events": [
+    {
+     "label": "各校簡章公告",
+     "kind": "notice",
+     "start": "2026-04-24",
+     "end": null
+    },
+    {
+     "label": "第一階段報名",
+     "kind": "register",
+     "start": "2026-05-11",
+     "end": "2026-06-01"
+    },
+    {
+     "label": "第二階段報名",
+     "kind": "register",
+     "start": "2026-06-10",
+     "end": "2026-06-17"
+    }
+   ]
+  }
+ },
+ "schools": [
+  {
+   "name": "國立臺北教育大學",
+   "area": "北部",
+   "url": "https://dicentue.ntue.edu.tw/p/403-1012-955-1.php?Lang=zh-tw",
+   "latest_year": 115,
+   "items": [
+    {
+     "title": "115學年度幼教專班報到註冊結果公告",
+     "url": "https://dicentue.ntue.edu.tw/p/406-1012-56569,r955.php?Lang=zh-tw"
+    },
+    {
+     "title": "115學年度幼教專班新生學號及報到通知公告",
+     "url": "https://dicentue.ntue.edu.tw/p/406-1012-56140,r955.php?Lang=zh-tw"
+    },
+    {
+     "title": "115學年度幼教專班招生考試放榜公告",
+     "url": "https://dicentue.ntue.edu.tw/p/406-1012-56065,r955.php?Lang=zh-tw"
+    },
+    {
+     "title": "115學年度幼教專班招生考試成績單寄發公告",
+     "url": "https://dicentue.ntue.edu.tw/p/406-1012-55977,r955.php?Lang=zh-tw"
+    }
+   ]
+  },
+  {
+   "name": "臺北市立大學",
+   "area": "北部",
+   "url": "https://cte.utaipei.edu.tw/p/412-1013-9618.php?Lang=zh-tw",
+   "latest_year": 115,
+   "items": [
+    {
+     "title": "【幼教專班-簡章公告】臺北市立大學辦理115學年度幼兒園在職人員修習幼兒園教師師資職前教育課程專班招生簡章公告(115.04.24)",
+     "url": "https://cte.utaipei.edu.tw/p/405-1013-131635,c9618.php?Lang=zh-tw"
+    }
+   ]
+  },
+  {
+   "name": "國立臺灣師範大學",
+   "area": "北部",
+   "url": "https://tecs.otecs.ntnu.edu.tw/",
+   "note": "教育部公文列名開班；公告頁待確認",
+   "latest_year": null,
+   "items": []
+  },
+  {
+   "name": "國立清華大學",
+   "area": "新竹",
+   "url": "https://ndcee.site.nthu.edu.tw/p/404-1109-306929.php",
+   "note": "週六上課，南大校區",
+   "latest_year": 115,
+   "items": []
+  },
+  {
+   "name": "國立東華大學",
+   "area": "宜蘭／花蓮",
+   "url": "https://littletree.ndhu.edu.tw/p/426-1023-20.php?Lang=zh-tw",
+   "latest_year": 115,
+   "items": [
+    {
+     "title": "115學年度宜蘭幼教專班錄取名單公告及報到說明",
+     "url": "https://littletree.ndhu.edu.tw/p/406-1023-260935,r6736.php?Lang=zh-tw"
+    },
+    {
+     "title": "115學年度幼教專班-宜蘭班 招生簡章公告，5/11開始收件",
+     "url": "https://littletree.ndhu.edu.tw/p/406-1023-257018,r6736.php?Lang=zh-tw"
+    }
+   ]
+  },
+  {
+   "name": "朝陽科技大學",
+   "area": "臺中",
+   "url": "https://edu.cyut.edu.tw/",
+   "latest_year": 115,
+   "items": [
+    {
+     "title": "【招生簡章】朝陽科技大學115學年度招考幼兒園在職人員修習幼兒園教師師資職前教育課程專班",
+     "url": "https://edu.cyut.edu.tw/p/406-1047-64815,r963.php?Lang=zh-tw"
+    }
+   ]
+  },
+  {
+   "name": "台南應用科技大學",
+   "area": "臺南",
+   "url": "https://edcourse.tut.edu.tw/p/406-1024-4894,r101.php?Lang=zh-tw",
+   "latest_year": 115,
+   "items": []
+  },
+  {
+   "name": "國立屏東大學",
+   "area": "高雄（假日班）",
+   "url": "https://ec.nptu.edu.tw/p/412-1119-6275.php?Lang=zh-tw",
+   "latest_year": 115,
+   "items": [
+    {
+     "title": "115學年度幼教專班招生簡章【第二階段報名】(高雄假日18學分班)",
+     "url": "https://ec.nptu.edu.tw/p/405-1119-196471,c6275.php?Lang=zh-tw"
+    }
+   ]
+  }
+ ],
+ "errors": []
+}
