@@ -134,12 +134,13 @@ def fetch_518() -> list[dict]:
 
 def fetch_kidedu() -> list[dict]:
     notices = []
-    pat = re.compile(r"甄選|甄試|招募|徵才|缺額|約聘|代理")
-    for page in (1, 2):
+    # 教保員甄選，以及升正式教師路上會用到的公告（幼教專班、教檢、教甄）
+    pat = re.compile(r"(教保員.*(甄選|甄試|招募|徵才))|專班|師資職前|教師資格考試|教師甄選|教甄")
+    for page in (1, 2, 3):
         h = get(KIDEDU_LIST.format(page=page))
         for url, title in re.findall(r'<a href="(https://kidedu\.ntpc\.edu\.tw/p/406-[^"]+)"[^>]*title="([^"]*)"', h):
             title = html.unescape(title).replace("(原頁面開啟)", "").strip()
-            if pat.search(title) and "教保員" in title:
+            if pat.search(title) and not re.search(r"廚工|護理|成績查詢|試場|碩士", title):
                 notices.append({"title": title, "url": url})
     return list({n["url"]: n for n in notices}.values())
 

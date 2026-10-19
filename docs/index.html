@@ -27,6 +27,8 @@ h2{font-size:19px;margin:32px 0 10px;padding-top:12px;border-top:1px solid var(-
 .chip.src{font-weight:700}
 .chip.new{background:var(--new);color:#000}
 .chip.due{background:var(--warn);color:#fff}
+.chip.k1{background:#2f6f5e;color:#fff}.chip.k2{background:#4f7fae;color:#fff}.chip.k3{background:#7a6aa8;color:#fff}.chip.k9{background:var(--chip)}.chip.warn{background:var(--warn);color:#fff}
+details.path summary{cursor:pointer;font-size:18px}details.path ol{padding-left:22px;margin:10px 0}details.path li{margin:4px 0}
 .note{font-size:14px;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
 .empty{color:var(--muted)}
 ul.n{padding-left:20px}ul.n li{margin:6px 0}ul.n a{color:var(--accent)}
@@ -44,11 +46,22 @@ footer{margin-top:40px;font-size:13px;color:var(--muted)}
 </div>
 <p class="note">104 和 1111 不能自動抓，按上面按鈕看最新的。下方「每天自動更新」的區塊來自教育部人才庫和 518。</p>
 
+<details class="card path" open><summary><b>目標：公立幼兒園正式教師</b></summary>
+<ol>
+<li>在<b>幼兒園</b>當<b>專任、月薪</b>的教保員，累積滿 3 年（托嬰中心、助理教保員、時薪、兼職都不算）</li>
+<li>報名幼教專班（約 18 學分），修完拿到修畢證明</li>
+<li>考教師資格考試（教檢）</li>
+<li>教育實習半年（近 7 年實際教學滿 3 年、表現優良可申請免修）</li>
+<li>考新北市（或其他縣市）幼兒園教師甄選 → 正式教師</li>
+</ol>
+<p class="meta">排序：<span class="chip k1">公立</span> <span class="chip k2">非營利</span> <span class="chip k3">準公共</span> 優先，年資最穩、也最接近公幼環境。<span class="chip warn">代理／代課</span> 要問清楚是否專任月薪、做完能否續聘，免得 3 年年資中斷。實際規定請以師培大學與教育部公告為準。</p>
+</details>
+
 <h2>每天自動更新（人才庫、518）</h2>
 <div id="auto"><p class="empty">載入中…</p></div>
 
-<h2>新北市公立幼兒園教保員甄選公告</h2>
-<p class="sub">公立幼兒園教保員一年統一考一次（通常 4–6 月公告），有新公告會出現在這裡。</p>
+<h2>公告追蹤：公幼教保員甄選、幼教專班、教檢、教甄</h2>
+<p class="sub">來自新北市幼兒教育資源網。公立幼兒園「契約進用教保員」一年統一考一次（通常 4–6 月），是最推薦的第一步。</p>
 <div id="notices"></div>
 
 <h2>104、1111 職缺清單（人工整理）</h2>
@@ -62,25 +75,36 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const today=new Date(Date.now()+8*3600e3).toISOString().slice(0,10);
 const md=d=>d.slice(0,4)===today.slice(0,4)?d.slice(5).replace('-','/'):d.replace(/-/g,'/');
 const daysBetween=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+function kind(i){
+  const t=(i.org||'')+(i.title||'')+(i.note||'');
+  if(/市立|縣立|國立|附設|公立|公幼/.test(t)) return [1,'公立','k1'];
+  if(/非營利/.test(t)) return [2,'非營利','k2'];
+  if(/準公共/.test(t)) return [3,'準公共','k3'];
+  if(/補習班|美語|吉的堡|何嘉仁|奇異鳥|惠文|邦仁|WeKIDS/i.test(t)) return [5,'美語／補習班體系','k9'];
+  return [4,'私立','k9'];
+}
+const isTemp=i=>/代理|代課/.test((i.title||'')+(i.tags||[]).join()+(i.note||''));
+const sortJobs=a=>a.slice().sort((x,y)=>kind(x)[0]-kind(y)[0]||isTemp(x)-isTemp(y));
 function card(i){
-  const chips=[`<span class="chip src">${esc(i.source)}</span>`];
+  const k=kind(i);const chips=[`<span class="chip ${k[2]}">${k[1]}</span>`,`<span class="chip src">${esc(i.source)}</span>`];
+  if(isTemp(i)) chips.push('<span class="chip warn">代理／代課：問清楚是否專任月薪</span>');
   if(i.first_seen&&daysBetween(i.first_seen,today)<=3) chips.push('<span class="chip new">新</span>');
   if(i.deadline){const d=daysBetween(today,i.deadline);chips.push(`<span class="chip${d<=3?' due':''}">報名截止 ${esc(md(i.deadline))}${d<=3?`（剩 ${d} 天）`:''}</span>`);}
   if(i.exam_date) chips.push(`<span class="chip">甄試 ${esc(md(i.exam_date))}</span>`);
-  (i.tags||[]).forEach(t=>chips.push(`<span class="chip">${esc(t)}</span>`));
+  (i.tags||[]).filter(t=>!/代理/.test(t)).forEach(t=>chips.push(`<span class="chip">${esc(t)}</span>`));
   const meta=[i.salary,i.place,i.period&&('聘期 '+i.period),i.note].filter(Boolean).map(esc).join('・');
   return `<div class="card"><a class="t" href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title)}</a>
   <div class="org">${esc(i.org)}</div><div class="meta">${meta}</div><div class="chips">${chips.join('')}</div></div>`;
 }
 fetch('data.json?'+Date.now()).then(r=>r.json()).then(d=>{
   document.getElementById('updated').textContent=`自動更新時間：${d.updated_at}`;
-  document.getElementById('auto').innerHTML=d.items.length?d.items.map(card).join(''):'<p class="empty">今天沒有新的教保員缺。</p>';
+  document.getElementById('auto').innerHTML=d.items.length?sortJobs(d.items).map(card).join(''):'<p class="empty">今天沒有新的教保員缺。</p>';
   if(d.errors?.length) document.getElementById('auto').insertAdjacentHTML('afterbegin',`<p class="note">部分來源今天抓取失敗，顯示的是上次的資料：${esc(d.errors.join('；'))}</p>`);
   document.getElementById('notices').innerHTML=d.notices.length?'<ul class="n">'+d.notices.map(n=>`<li><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a></li>`).join('')+'</ul>':'<p class="empty">目前沒有。</p>';
 }).catch(()=>{document.getElementById('auto').innerHTML='<p class="empty">資料載入失敗，請稍後重新整理。</p>'});
 fetch('snapshot.json?'+Date.now()).then(r=>r.json()).then(s=>{
   document.getElementById('snapnote').textContent=`整理日期 ${s.taken_at}。${s.note}`;
-  document.getElementById('snap').innerHTML=s.items.map(card).join('');
+  document.getElementById('snap').innerHTML=sortJobs(s.items).map(card).join('');
 });
 </script>
 </body>
