@@ -82,13 +82,16 @@ h3 .dot{width:10px;height:10px;border-radius:50%}
 .next span{color:var(--muted);font-size:14px}
 .tl{padding:14px 12px 10px;overflow-x:auto}
 .tl table{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
-.tl th{font-weight:600;color:var(--muted);padding:0 0 6px;text-align:center}
+.tl th{font-weight:600;color:var(--muted);padding:2px 0 6px;text-align:center;vertical-align:bottom}
 .tl th:first-child{width:92px}
 .tl td{padding:5px 1px;height:32px}
 .tl td.lbl{font-weight:600;padding-right:8px;white-space:nowrap}
 .bar{height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
 .bar.reg{opacity:.4}
-.tl td.now{background:color-mix(in srgb,var(--hot) 12%,transparent)}
+.tl td.now{background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.tl th.now{color:var(--ink);background:color-mix(in srgb,var(--ink) 5%,transparent);border-radius:6px 6px 0 0}
+.tl th.now span{display:block;font-size:11px;color:var(--accent);font-weight:700;line-height:1.2}
+.tl td.lbl small{display:block;font-weight:400;color:var(--muted);font-size:11px}
 .legend{display:flex;gap:14px;color:var(--muted);font-size:13px;margin:8px 4px 4px;flex-wrap:wrap}
 .legend i{display:inline-block;width:14px;height:10px;border-radius:3px;background:var(--accent);margin-right:5px}
 .legend i.reg{opacity:.4}
@@ -162,7 +165,7 @@ footer{color:var(--faint);font-size:13px;padding:24px 0 48px;border-top:1px soli
   <p class="lead">幾乎都擠在 5～7 月。日期以 115 年（2026）為例，每年大致相同。</p>
   <div class="panel next" id="next"></div>
   <div class="panel tl" id="tl"></div>
-  <div class="legend"><span><i class="reg"></i>公告／報名</span><span><i></i>考試</span><span>淡紅底＝這個月</span></div>
+  <div class="legend"><span><i class="reg"></i>公告／報名</span><span><i></i>考試</span><span>灰底＝現在這個月</span></div>
   <div id="examlist"></div>
 </section>
 
@@ -289,10 +292,10 @@ const EXAMS=[
 ];
 (function(){
   const M=[1,2,3,4,5,6,7,8,9,10,11,12];
-  let h='<table><tr><th></th>'+M.map(m=>`<th>${m}月</th>`).join('')+'</tr>';
+  let h='<table><tr><th></th>'+M.map(m=>m===thisMonth?`<th class="now"><span>現在</span>${m}月</th>`:`<th>${m}月</th>`).join('')+'</tr>';
   for(const e of EXAMS){
-    if(!e.exam.length&&!e.reg.length){h+=`<tr><td class="lbl">${e.short}</td><td colspan="12" style="color:var(--muted);text-align:center;font-size:12px">各校不同，沒有固定月份</td></tr>`;continue;}
-    h+=`<tr><td class="lbl">${e.short}</td>`+M.map(m=>{
+    const sub=!e.exam.length&&!e.reg.length?'<small>各校不同，無固定月份</small>':'';
+    h+=`<tr><td class="lbl">${e.short}${sub}</td>`+M.map(m=>{
       const bar=e.exam.includes(m)?`<div class="bar" style="background:${e.color}">考</div>`:e.reg.includes(m)?`<div class="bar reg" style="background:${e.color}"></div>`:'';
       return `<td class="${m===thisMonth?'now':''}">${bar}</td>`;
     }).join('')+'</tr>';
