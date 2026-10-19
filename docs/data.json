@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-19 10:19",
+ "updated_at": "2026-10-19 10:23",
  "items": [
   {
    "source": "人才庫",
@@ -154,7 +154,5 @@
    "first_seen": "2026-10-19"
   }
  ],
- "errors": [
-  "人才庫: <urlopen error timed out>"
- ]
+ "errors": []
 }
