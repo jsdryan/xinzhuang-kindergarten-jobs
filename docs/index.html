@@ -139,6 +139,8 @@ h2 small{font-weight:400;color:var(--faint);font-size:14px;margin-left:6px}
 .chk small{display:block;color:var(--faint);font-size:12px;text-decoration:none}
 .minibar{height:8px;border-radius:99px;background:color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden;margin:8px 0 4px}
 .minibar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.cj{margin-top:8px;font-size:14px;padding:10px 12px;border-radius:12px;background:var(--accent-soft)}
+.cj small{display:block;color:var(--muted);font-size:12px}
 .bonus{font-size:13px;color:var(--muted);margin-top:8px}
 /* 路線 */
 .steps{list-style:none;margin:8px 0 0;padding:0}
@@ -343,7 +345,7 @@ fetch('progress.json?'+Date.now()).then(r=>r.json()).then(G=>{
   const chk=(list)=>`<ul class="chk">${list.map(t=>`<li class="${t.done?'y':t===nextTask?'nx':''}"><span class="c">${t.done?'✓':''}</span><span><em>${esc(t.text)}</em>${t.done?`<small>${mdd(t.done)} 完成</small>`:t===nextTask?'<small>下一件事</small>':''}</span></li>`).join('')}</ul>`;
   const yrs=`${Math.floor(months)} / 36 個月`;
   const S=[
-    {h:'找到教保員工作',s:`${nDone} / ${tasks.length} 完成`,body:`<div class="card box">${chk(tasks)}</div>`},
+    {h:'找到教保員工作',s:`${nDone} / ${tasks.length} 完成`,body:`${G.current_job?`<div class="cj">目前：${esc(G.current_job.text)}<small>${esc(G.current_job.note)}</small></div>`:''}<div class="card box">${chk(tasks)}</div>`},
     {h:'累積滿 3 年年資（不必連續）',s:start?`${mdd(start)} 到職・${yrs}`:'到職那天開始自動計算',body:`<div class="minibar"><i style="width:${months/36*100}%"></i></div><div class="s">${start?`預計 ${new Date(new Date(start).getTime()+36*30.44*864e5).toISOString().slice(0,7).replace('-','/')} 滿 3 年`:'0 / 36 個月'}</div>${(G.bonus||[]).map(b=>`<div class="bonus">加分選項：${esc(b.text)}${b.done?' ✓':''}</div>`).join('')}`},
     {h:'報名幼教專班',s:'約 18 學分，每年 5 月報名'},
     {h:'考教師資格考試（教檢）',s:'每年 6 月'},
