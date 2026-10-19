@@ -1,8 +1,7 @@
 name: 每日更新職缺
 
+# 每日更新改由家裡 NAS 的 nas-collector 執行（人才庫擋國外 IP）；這裡只留手動備援。
 on:
-  schedule:
-    - cron: "0 22 * * *"   # 台灣時間每天 06:00
   workflow_dispatch:
 
 permissions:
