@@ -344,10 +344,10 @@ fetch('progress.json?'+Date.now()).then(r=>r.json()).then(G=>{
   const yrs=`${Math.floor(months)} / 36 個月`;
   const S=[
     {h:'找到教保員工作',s:`${nDone} / ${tasks.length} 完成`,body:`<div class="card box">${chk(tasks)}</div>`},
-    {h:'累積 3 年年資',s:start?`${mdd(start)} 到職・${yrs}`:'到職那天開始自動計算',body:`<div class="minibar"><i style="width:${months/36*100}%"></i></div><div class="s">${start?`預計 ${new Date(new Date(start).getTime()+36*30.44*864e5).toISOString().slice(0,7).replace('-','/')} 滿 3 年`:'0 / 36 個月'}</div>${(G.bonus||[]).map(b=>`<div class="bonus">加分選項：${esc(b.text)}${b.done?' ✓':''}</div>`).join('')}`},
+    {h:'累積滿 3 年年資（不必連續）',s:start?`${mdd(start)} 到職・${yrs}`:'到職那天開始自動計算',body:`<div class="minibar"><i style="width:${months/36*100}%"></i></div><div class="s">${start?`預計 ${new Date(new Date(start).getTime()+36*30.44*864e5).toISOString().slice(0,7).replace('-','/')} 滿 3 年`:'0 / 36 個月'}</div>${(G.bonus||[]).map(b=>`<div class="bonus">加分選項：${esc(b.text)}${b.done?' ✓':''}</div>`).join('')}`},
     {h:'報名幼教專班',s:'約 18 學分，每年 5 月報名'},
     {h:'考教師資格考試（教檢）',s:'每年 6 月'},
-    {h:'教育實習半年',s:'教學滿 3 年、表現優良可申請免修'},
+    {h:'教育實習半年',s:'最近 7 年內累計教學滿 3 年（不必連續）、表現優良，可申請免修'},
     {h:'考幼兒園教師甄選（教甄）',s:'每年 5 月初試 → 正式公幼老師 🎉'},
   ];
   $('steps').innerHTML=S.map((x,i)=>{const n=i+1, st=n<cur?'done':n===cur?'cur':'todo';
