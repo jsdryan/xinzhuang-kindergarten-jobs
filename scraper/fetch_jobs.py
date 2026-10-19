@@ -14,6 +14,7 @@ import html
 import json
 import re
 import sys
+import time
 import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -28,10 +29,17 @@ URL_518 = "https://www.518.com.tw/job-index-P-{page}.html?ab=2035002021&aa=30010
 KIDEDU_LIST = "https://kidedu.ntpc.edu.tw/p/403-1000-9-{page}.php"
 
 
-def get(url: str) -> str:
+def get(url: str, tries: int = 3) -> str:
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Language": "zh-TW,zh;q=0.9"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return r.read().decode("utf-8", errors="replace")
+    for n in range(tries):
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return r.read().decode("utf-8", errors="replace")
+        except OSError:
+            if n == tries - 1:
+                raise
+            time.sleep(10)
+    raise RuntimeError("unreachable")
 
 
 def text(fragment: str) -> str:
