@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>新莊教保員職缺</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#22201c;--muted:#6b665d;--line:#e4dfd4;--accent:#2f6f5e;--accent-ink:#fff;--warn:#b5532a;--new:#c98a12;--chip:#eef3f0}
+@media (prefers-color-scheme:dark){:root{--bg:#171614;--card:#22211e;--ink:#eeeae2;--muted:#a59f94;--line:#3a3833;--accent:#6fb8a2;--accent-ink:#10201b;--warn:#e58a62;--new:#e8b24a;--chip:#2b332f}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:26px;margin:4px 0 2px}
+h2{font-size:19px;margin:32px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
+.sub{color:var(--muted);font-size:15px;margin:0 0 14px}
+.live{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.live a{display:block;text-align:center;padding:14px 8px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none}
+.live a small{display:block;font-weight:400;font-size:13px;opacity:.85}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+.card a.t{color:var(--ink);font-weight:700;font-size:18px;text-decoration:none}
+.card a.t:hover{text-decoration:underline}
+.org{margin:2px 0 6px}
+.meta{color:var(--muted);font-size:15px}
+.chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:13px;padding:2px 9px;border-radius:99px;background:var(--chip)}
+.chip.src{font-weight:700}
+.chip.new{background:var(--new);color:#000}
+.chip.due{background:var(--warn);color:#fff}
+.note{font-size:14px;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+.empty{color:var(--muted)}
+ul.n{padding-left:20px}ul.n li{margin:6px 0}ul.n a{color:var(--accent)}
+footer{margin-top:40px;font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+<h1>新莊區 教保員職缺</h1>
+<p class="sub">只列「教保員」缺（不含助理教保員、托嬰中心、時薪制）。<span id="updated"></span></p>
+
+<div class="live">
+  <a href="https://www.104.com.tw/jobs/search/?jobcat=2016002020&area=6001002021&ro=1&order=15" target="_blank" rel="noopener">104 即時搜尋<small>新莊・教保員・全職</small></a>
+  <a href="https://www.1111.com.tw/search/job?c0=100221&ks=%E6%95%99%E4%BF%9D%E5%93%A1&col=ab&sort=desc" target="_blank" rel="noopener">1111 即時搜尋<small>新莊・教保員</small></a>
+</div>
+<p class="note">104 和 1111 不能自動抓，按上面按鈕看最新的。下方「每天自動更新」的區塊來自教育部人才庫和 518。</p>
+
+<h2>每天自動更新（人才庫、518）</h2>
+<div id="auto"><p class="empty">載入中…</p></div>
+
+<h2>新北市公立幼兒園教保員甄選公告</h2>
+<p class="sub">公立幼兒園教保員一年統一考一次（通常 4–6 月公告），有新公告會出現在這裡。</p>
+<div id="notices"></div>
+
+<h2>104、1111 職缺清單（人工整理）</h2>
+<p class="sub" id="snapnote"></p>
+<div id="snap"></div>
+
+<footer>資料來源：教育部國教署 公私立幼兒園人才庫、518熊班、新北市幼兒教育資源網、104、1111。實際條件以職缺原頁面為準。</footer>
+</main>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today=new Date(Date.now()+8*3600e3).toISOString().slice(0,10);
+const md=d=>d.slice(0,4)===today.slice(0,4)?d.slice(5).replace('-','/'):d.replace(/-/g,'/');
+const daysBetween=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+function card(i){
+  const chips=[`<span class="chip src">${esc(i.source)}</span>`];
+  if(i.first_seen&&daysBetween(i.first_seen,today)<=3) chips.push('<span class="chip new">新</span>');
+  if(i.deadline){const d=daysBetween(today,i.deadline);chips.push(`<span class="chip${d<=3?' due':''}">報名截止 ${esc(md(i.deadline))}${d<=3?`（剩 ${d} 天）`:''}</span>`);}
+  if(i.exam_date) chips.push(`<span class="chip">甄試 ${esc(md(i.exam_date))}</span>`);
+  (i.tags||[]).forEach(t=>chips.push(`<span class="chip">${esc(t)}</span>`));
+  const meta=[i.salary,i.place,i.period&&('聘期 '+i.period),i.note].filter(Boolean).map(esc).join('・');
+  return `<div class="card"><a class="t" href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title)}</a>
+  <div class="org">${esc(i.org)}</div><div class="meta">${meta}</div><div class="chips">${chips.join('')}</div></div>`;
+}
+fetch('data.json?'+Date.now()).then(r=>r.json()).then(d=>{
+  document.getElementById('updated').textContent=`自動更新時間：${d.updated_at}`;
+  document.getElementById('auto').innerHTML=d.items.length?d.items.map(card).join(''):'<p class="empty">今天沒有新的教保員缺。</p>';
+  if(d.errors?.length) document.getElementById('auto').insertAdjacentHTML('afterbegin',`<p class="note">部分來源今天抓取失敗，顯示的是上次的資料：${esc(d.errors.join('；'))}</p>`);
+  document.getElementById('notices').innerHTML=d.notices.length?'<ul class="n">'+d.notices.map(n=>`<li><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a></li>`).join('')+'</ul>':'<p class="empty">目前沒有。</p>';
+}).catch(()=>{document.getElementById('auto').innerHTML='<p class="empty">資料載入失敗，請稍後重新整理。</p>'});
+fetch('snapshot.json?'+Date.now()).then(r=>r.json()).then(s=>{
+  document.getElementById('snapnote').textContent=`整理日期 ${s.taken_at}。${s.note}`;
+  document.getElementById('snap').innerHTML=s.items.map(card).join('');
+});
+</script>
+</body>
+</html>
