@@ -6,106 +6,318 @@
 <title>新莊教保員職缺</title>
 <meta name="robots" content="noindex">
 <style>
-:root{--bg:#f6f4ef;--card:#fff;--ink:#22201c;--muted:#6b665d;--line:#e4dfd4;--accent:#2f6f5e;--accent-ink:#fff;--warn:#b5532a;--new:#c98a12;--chip:#eef3f0}
-@media (prefers-color-scheme:dark){:root{--bg:#171614;--card:#22211e;--ink:#eeeae2;--muted:#a59f94;--line:#3a3833;--accent:#6fb8a2;--accent-ink:#10201b;--warn:#e58a62;--new:#e8b24a;--chip:#2b332f}}
+:root{
+  --bg:#f5f3ee;--surface:#fff;--ink:#1f1d1a;--muted:#6d685f;--faint:#9a958b;--line:#e6e1d6;
+  --accent:#2e6b5a;--accent-soft:#e3efe9;--accent-ink:#fff;
+  --gov:#2e6b5a;--np:#3f6fa0;--qp:#7563a3;--pv:#8a8478;--cram:#a8794a;
+  --hot:#c2522b;--new:#d99a1e;--shadow:0 1px 2px rgba(0,0,0,.04),0 2px 8px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#141412;--surface:#1f1e1b;--ink:#ece8e0;--muted:#a59f94;--faint:#7a756c;--line:#34322d;
+  --accent:#7cc1aa;--accent-soft:#22332d;--accent-ink:#0f1f19;
+  --gov:#4f9a83;--np:#5a86b8;--qp:#8a78c0;--pv:#7d776c;--cram:#a8794a;--hot:#d9734b;--new:#eab54d;--shadow:none}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif}
-main{max-width:760px;margin:0 auto;padding:20px 16px 60px}
-h1{font-size:26px;margin:4px 0 2px}
-h2{font-size:19px;margin:32px 0 10px;padding-top:12px;border-top:1px solid var(--line)}
-.sub{color:var(--muted);font-size:15px;margin:0 0 14px}
-.live{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
-.live a{display:block;text-align:center;padding:14px 8px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none}
-.live a small{display:block;font-weight:400;font-size:13px;opacity:.85}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
-.card a.t{color:var(--ink);font-weight:700;font-size:18px;text-decoration:none}
-.card a.t:hover{text-decoration:underline}
-.org{margin:2px 0 6px}
-.meta{color:var(--muted);font-size:15px}
-.chips{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
-.chip{font-size:13px;padding:2px 9px;border-radius:99px;background:var(--chip)}
-.chip.src{font-weight:700}
-.chip.new{background:var(--new);color:#000}
-.chip.due{background:var(--warn);color:#fff}
-.chip.k1{background:#2f6f5e;color:#fff}.chip.k2{background:#4f7fae;color:#fff}.chip.k3{background:#7a6aa8;color:#fff}.chip.k9{background:var(--chip)}.chip.warn{background:var(--warn);color:#fff}
-details.path summary{cursor:pointer;font-size:18px}details.path ol{padding-left:22px;margin:10px 0}details.path li{margin:4px 0}
-.note{font-size:14px;color:var(--muted);background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
-.empty{color:var(--muted)}
-ul.n{padding-left:20px}ul.n li{margin:6px 0}ul.n a{color:var(--accent)}
-footer{margin-top:40px;font-size:13px;color:var(--muted)}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;-webkit-text-size-adjust:100%}
+a{color:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+header{padding:28px 0 8px}
+header h1{font-size:26px;line-height:1.3;margin:0}
+header p{margin:6px 0 0;color:var(--muted);font-size:15px}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav a{flex:none;padding:12px;text-decoration:none;color:var(--muted);font-weight:600;border-bottom:3px solid transparent}
+nav a.on{color:var(--ink);border-color:var(--accent)}
+section{padding:26px 0 8px;scroll-margin-top:52px}
+h2{font-size:21px;margin:0 0 4px}
+.lead{color:var(--muted);margin:0 0 16px;font-size:15px}
+h3{font-size:15px;color:var(--muted);font-weight:600;margin:24px 0 8px;display:flex;align-items:center;gap:8px}
+details.grp summary{list-style:none;cursor:pointer}
+details.grp summary::-webkit-details-marker{display:none}
+.open{margin-left:auto;font-size:13px;color:var(--accent);font-weight:700}
+details.grp[open] .open{display:none}
+h3 .dot{width:10px;height:10px;border-radius:50%}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+
+.picks{display:grid;gap:10px}
+.pick{display:block;text-decoration:none;padding:14px 16px;border-left:5px solid var(--accent)}
+.pick .row{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.pick b{font-size:18px}
+.pick .sal{font-weight:700;color:var(--accent);white-space:nowrap}
+.pick .why{color:var(--muted);font-size:14px;margin-top:4px}
+
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:26px 0 0}
+.seg button{font:inherit;font-size:14px;padding:6px 14px;border-radius:99px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+
+.school{padding:14px 16px;margin:8px 0}
+.school .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.school .name{font-size:17px;font-weight:700}
+.school .sal{font-weight:600;white-space:nowrap}
+.school .place{color:var(--muted);font-size:14px;margin-top:2px}
+.jobs{list-style:none;padding:0;margin:10px 0 0;border-top:1px dashed var(--line)}
+.jobs li{border-bottom:1px dashed var(--line)}
+.jobs li:last-child{border-bottom:0}
+.jobs a{display:flex;gap:10px;align-items:center;padding:9px 0;text-decoration:none}
+.jobs a:hover .jt{text-decoration:underline}
+.src{flex:none;font-size:12px;font-weight:700;min-width:48px;text-align:center;padding:2px 6px;border-radius:6px;background:var(--accent-soft);color:var(--accent)}
+.jt{flex:1;min-width:0}
+.jt small{display:block;color:var(--muted);font-size:13px}
+.go{flex:none;color:var(--faint);font-size:20px}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;margin-left:4px;vertical-align:1px;font-weight:600;line-height:1.5}
+.tag.new{background:var(--new);color:#1a1200}
+.tag.hot{background:var(--hot);color:#fff}
+.tag.tmp{border:1px solid var(--hot);color:var(--hot)}
+.tag.old{color:var(--faint);border:1px solid var(--line);font-weight:400}
+.kind{font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px;color:#fff;margin-right:8px;vertical-align:2px}
+
+.more{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:24px 0 6px}
+.more a{display:block;text-align:center;text-decoration:none;padding:12px 8px;font-weight:700}
+.more small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.fine{color:var(--faint);font-size:13px;margin:6px 0 0}
+
+.next{padding:16px;border-left:5px solid var(--hot);margin-bottom:14px}
+.next .k{font-size:13px;color:var(--hot);font-weight:700}
+.next b{font-size:18px;display:block;margin:2px 0}
+.next span{color:var(--muted);font-size:14px}
+.tl{padding:14px 12px 10px;overflow-x:auto}
+.tl table{border-collapse:collapse;width:100%;min-width:560px;font-size:13px}
+.tl th{font-weight:600;color:var(--muted);padding:0 0 6px;text-align:center}
+.tl th:first-child{width:92px}
+.tl td{padding:5px 1px;height:32px}
+.tl td.lbl{font-weight:600;padding-right:8px;white-space:nowrap}
+.bar{height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.bar.reg{opacity:.4}
+.tl td.now{background:color-mix(in srgb,var(--hot) 12%,transparent)}
+.legend{display:flex;gap:14px;color:var(--muted);font-size:13px;margin:8px 4px 4px;flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:3px;background:var(--accent);margin-right:5px}
+.legend i.reg{opacity:.4}
+.exam{padding:14px 16px;margin:10px 0}
+.exam .top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.exam b{font-size:16px}
+.exam b i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px}
+.when{font-size:13px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.exam dl{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin:10px 0 4px;font-size:14px}
+.exam dt{color:var(--muted)}
+.exam dd{margin:0}
+.exam a{font-size:13px;color:var(--muted)}
+
+.steps{list-style:none;margin:0 0 14px;padding:0}
+.steps li{position:relative;padding:0 0 18px 42px}
+.steps li::before{content:"";position:absolute;left:13px;top:30px;bottom:2px;width:2px;background:var(--line)}
+.steps li:last-child::before{display:none}
+.steps .n{position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:14px;background:var(--surface);border:2px solid var(--line);color:var(--muted)}
+.steps li.cur .n{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.steps b{display:block}
+.steps span{color:var(--muted);font-size:14px}
+.here{font-size:12px;font-weight:700;color:var(--accent);margin-left:8px}
+.callout{padding:12px 14px;font-size:14px;color:var(--muted)}
+
+.notes{list-style:none;padding:0;margin:0}
+.notes li{border-bottom:1px solid var(--line)}
+.notes li:last-child{border:0}
+.notes a{display:block;padding:12px 16px;text-decoration:none}
+.notes a:hover{text-decoration:underline}
+.empty{color:var(--muted);padding:14px 16px;margin:0}
+
+footer{color:var(--faint);font-size:13px;padding:24px 0 48px;border-top:1px solid var(--line);margin-top:28px}
 </style>
 </head>
 <body>
-<main>
-<h1>新莊區 教保員職缺</h1>
-<p class="sub">只列「教保員」缺（不含助理教保員、托嬰中心、時薪制）。<span id="updated"></span></p>
+<header class="wrap">
+  <h1>新莊區 教保員職缺</h1>
+  <p>只列幼兒園的「教保員」缺，年資可累積到考公幼教師。<span id="upd"></span></p>
+</header>
 
-<div class="live">
-  <a href="https://www.104.com.tw/jobs/search/?jobcat=2016002020&area=6001002021&ro=1&order=15" target="_blank" rel="noopener">104 即時搜尋<small>新莊・教保員・全職</small></a>
-  <a href="https://www.1111.com.tw/search/job?c0=100221&ks=%E6%95%99%E4%BF%9D%E5%93%A1&col=ab&sort=desc" target="_blank" rel="noopener">1111 即時搜尋<small>新莊・教保員</small></a>
-</div>
-<p class="note">104 和 1111 不能自動抓，按上面按鈕看最新的。下方「每天自動更新」的區塊來自教育部人才庫和 518。</p>
+<nav><div class="wrap">
+  <a href="#jobs" class="on">職缺</a>
+  <a href="#exams">考試時程</a>
+  <a href="#path">升教師路線</a>
+  <a href="#notices">公告</a>
+</div></nav>
 
-<details class="card path" open><summary><b>目標：公立幼兒園正式教師</b></summary>
-<ol>
-<li>在<b>幼兒園</b>當<b>專任、月薪</b>的教保員，累積滿 3 年（托嬰中心、助理教保員、時薪、兼職都不算）</li>
-<li>報名幼教專班（約 18 學分），修完拿到修畢證明</li>
-<li>考教師資格考試（教檢）</li>
-<li>教育實習半年（近 7 年實際教學滿 3 年、表現優良可申請免修）</li>
-<li>考新北市（或其他縣市）幼兒園教師甄選 → 正式教師</li>
-</ol>
-<p class="meta">排序：<span class="chip k1">公立</span> <span class="chip k2">非營利</span> <span class="chip k3">準公共</span> 優先，年資最穩、也最接近公幼環境。<span class="chip warn">代理／代課</span> 要問清楚是否專任月薪、做完能否續聘，免得 3 年年資中斷。實際規定請以師培大學與教育部公告為準。</p>
-</details>
+<main class="wrap">
 
-<h2>每天自動更新（人才庫、518）</h2>
-<div id="auto"><p class="empty">載入中…</p></div>
+<section id="jobs">
+  <h2>這週先投</h2>
+  <p class="lead">非營利、準公共優先：制度穩、薪資照公立標準，最接近公幼環境。</p>
+  <div class="picks" id="picks"></div>
 
-<h2>公告追蹤：公幼教保員甄選、幼教專班、教檢、教甄</h2>
-<p class="sub">來自新北市幼兒教育資源網。公立幼兒園「契約進用教保員」一年統一考一次（通常 4–6 月），是最推薦的第一步。</p>
-<div id="notices"></div>
+  <div class="seg" id="seg">
+    <button data-f="all" class="on">全部</button>
+    <button data-f="rec">只看公立／非營利／準公共</button>
+    <button data-f="due">有報名截止日</button>
+  </div>
+  <div id="list"></div>
 
-<h2>104、1111 職缺清單（人工整理）</h2>
-<p class="sub" id="snapnote"></p>
-<div id="snap"></div>
+  <div class="more">
+    <a class="panel" href="https://www.104.com.tw/jobs/search/?jobcat=2016002020&area=6001002021&ro=1&order=15" target="_blank" rel="noopener">104 即時搜尋<small>新莊・教保員・全職</small></a>
+    <a class="panel" href="https://www.1111.com.tw/search/job?c0=100221&ks=%E6%95%99%E4%BF%9D%E5%93%A1&col=ab&sort=desc" target="_blank" rel="noopener">1111 即時搜尋<small>新莊・教保員</small></a>
+  </div>
+  <p class="fine" id="srcnote"></p>
+</section>
 
-<footer>資料來源：教育部國教署 公私立幼兒園人才庫、518熊班、新北市幼兒教育資源網、104、1111。實際條件以職缺原頁面為準。</footer>
+<section id="exams">
+  <h2>考試時程</h2>
+  <p class="lead">幾乎都擠在 5～7 月。日期以 115 年（2026）為例，每年大致相同。</p>
+  <div class="panel next" id="next"></div>
+  <div class="panel tl" id="tl"></div>
+  <div class="legend"><span><i class="reg"></i>公告／報名</span><span><i></i>考試</span><span>淡紅底＝這個月</span></div>
+  <div id="examlist"></div>
+</section>
+
+<section id="path">
+  <h2>升教師路線</h2>
+  <p class="lead">目標：公立幼兒園正式教師。</p>
+  <ol class="steps" id="steps"></ol>
+  <div class="panel callout">年資只算<b>幼兒園</b>的<b>專任、月薪</b>教保員；托嬰中心、助理教保員、時薪、兼職都不算。代理缺做完一年要能接上，免得年資中斷。實際規定以師培大學與教育部公告為準。</div>
+</section>
+
+<section id="notices">
+  <h2>公告</h2>
+  <p class="lead">新北市幼兒教育資源網中，和教保員甄選、幼教專班、教檢、教甄有關的公告，每天自動更新。</p>
+  <div class="panel"><ul class="notes" id="notes"><li class="empty">載入中…</li></ul></div>
+</section>
+
+<footer>資料來源：教育部國教署 公私立幼兒園人才庫、518熊班、新北市幼兒教育資源網（每天 06:30 自動更新）；104、1111（人工整理，可能已下架）。條件以各職缺原頁面為準。</footer>
 </main>
+
 <script>
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today=new Date(Date.now()+8*3600e3).toISOString().slice(0,10);
-const md=d=>d.slice(0,4)===today.slice(0,4)?d.slice(5).replace('-','/'):d.replace(/-/g,'/');
-const daysBetween=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
-function kind(i){
-  const t=(i.org||'')+(i.title||'')+(i.note||'');
-  if(/市立|縣立|國立|附設|公立|公幼/.test(t)) return [1,'公立','k1'];
-  if(/非營利/.test(t)) return [2,'非營利','k2'];
-  if(/準公共/.test(t)) return [3,'準公共','k3'];
-  if(/補習班|美語|吉的堡|何嘉仁|奇異鳥|惠文|邦仁|WeKIDS/i.test(t)) return [5,'美語／補習班體系','k9'];
-  return [4,'私立','k9'];
-}
+const thisMonth=+today.slice(5,7);
+const days=(a,b)=>Math.round((new Date(b)-new Date(a))/864e5);
+const md=d=>d.slice(0,4)===today.slice(0,4)?`${+d.slice(5,7)}/${+d.slice(8)}`:d.replace(/-/g,'/');
+
+/* ---------- 職缺 ---------- */
+const KINDS=[
+  {id:1,name:'公立',color:'var(--gov)',re:/市立|縣立|國立|附設|公立|公幼/},
+  {id:2,name:'非營利',color:'var(--np)',re:/非營利|三之三/},
+  {id:3,name:'準公共',color:'var(--qp)',re:/準公共|育全保安|育誠/},
+  {id:5,name:'美語／補習班體系',color:'var(--cram)',re:/補習班|美語|吉的堡|何嘉仁|奇異鳥|惠文|邦仁|WeKIDS|文笙|吉尼爾/i},
+  {id:4,name:'私立',color:'var(--pv)',re:/./},
+];
+const kindOf=t=>KINDS.find(k=>k.re.test(t));
+const schoolKey=i=>(i.school||i.org||'').replace(/^新北市(私立|立)?/,'').replace(/\s/g,'');
 const isTemp=i=>/代理|代課/.test((i.title||'')+(i.tags||[]).join()+(i.note||''));
-const sortJobs=a=>a.slice().sort((x,y)=>kind(x)[0]-kind(y)[0]||isTemp(x)-isTemp(y));
-function card(i){
-  const k=kind(i);const chips=[`<span class="chip ${k[2]}">${k[1]}</span>`,`<span class="chip src">${esc(i.source)}</span>`];
-  if(isTemp(i)) chips.push('<span class="chip warn">代理／代課：問清楚是否專任月薪</span>');
-  if(i.first_seen&&daysBetween(i.first_seen,today)<=3) chips.push('<span class="chip new">新</span>');
-  if(i.deadline){const d=daysBetween(today,i.deadline);chips.push(`<span class="chip${d<=3?' due':''}">報名截止 ${esc(md(i.deadline))}${d<=3?`（剩 ${d} 天）`:''}</span>`);}
-  if(i.exam_date) chips.push(`<span class="chip">甄試 ${esc(md(i.exam_date))}</span>`);
-  (i.tags||[]).filter(t=>!/代理/.test(t)).forEach(t=>chips.push(`<span class="chip">${esc(t)}</span>`));
-  const meta=[i.salary,i.place,i.period&&('聘期 '+i.period),i.note].filter(Boolean).map(esc).join('・');
-  return `<div class="card"><a class="t" href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.title)}</a>
-  <div class="org">${esc(i.org)}</div><div class="meta">${meta}</div><div class="chips">${chips.join('')}</div></div>`;
+const salNums=s=>(String(s||'').replace(/,/g,'').match(/\d{5}/g)||[]).map(Number);
+const fmt=n=>n.toLocaleString('en-US');
+
+function groupSchools(items){
+  const m=new Map();
+  for(const i of items){
+    const k=schoolKey(i); if(!m.has(k)) m.set(k,{name:k,items:[]});
+    m.get(k).items.push(i);
+  }
+  return [...m.values()].map(g=>{
+    const text=g.items.map(i=>[i.school,i.org,i.title,i.note].join(' ')).join(' ');
+    const nums=g.items.flatMap(i=>salNums(i.salary));
+    const lo=Math.min(...nums),hi=Math.max(...nums);
+    const deadlines=g.items.map(i=>i.deadline).filter(d=>d&&d>=today).sort();
+    const placed=g.items.find(i=>i.place&&!/^(新莊|新北市-新莊區.*)$/.test(i.place));
+    g.items.sort((a,b)=>(a.manual?1:0)-(b.manual?1:0));
+    return {...g,kind:kindOf(text),deadline:deadlines[0],
+      sal:nums.length?(lo===hi?`${fmt(lo)} 元`:`${fmt(lo)}–${fmt(hi)} 元`):'薪資見職缺頁',
+      place:(placed?.place||'').replace(/^新北市新莊區/,'')};
+  }).sort((a,b)=>a.kind.id-b.kind.id||((a.deadline||'9')<(b.deadline||'9')?-1:(a.deadline||'9')>(b.deadline||'9')?1:0));
 }
-fetch('data.json?'+Date.now()).then(r=>r.json()).then(d=>{
-  document.getElementById('updated').textContent=`自動更新時間：${d.updated_at}`;
-  document.getElementById('auto').innerHTML=d.items.length?sortJobs(d.items).map(card).join(''):'<p class="empty">今天沒有新的教保員缺。</p>';
-  if(d.errors?.length) document.getElementById('auto').insertAdjacentHTML('afterbegin',`<p class="note">部分來源今天抓取失敗，顯示的是上次的資料：${esc(d.errors.join('；'))}</p>`);
-  document.getElementById('notices').innerHTML=d.notices.length?'<ul class="n">'+d.notices.map(n=>`<li><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a></li>`).join('')+'</ul>':'<p class="empty">目前沒有。</p>';
-}).catch(()=>{document.getElementById('auto').innerHTML='<p class="empty">資料載入失敗，請稍後重新整理。</p>'});
-fetch('snapshot.json?'+Date.now()).then(r=>r.json()).then(s=>{
-  document.getElementById('snapnote').textContent=`整理日期 ${s.taken_at}。${s.note}`;
-  document.getElementById('snap').innerHTML=sortJobs(s.items).map(card).join('');
+
+function jobRow(i){
+  const t=[];
+  if(!i.manual&&i.first_seen&&days(i.first_seen,today)<=3) t.push('<span class="tag new">新</span>');
+  if(i.deadline){const d=days(today,i.deadline);t.push(`<span class="tag ${d<=3?'hot':'old'}">${d<=3?`剩 ${d} 天截止`:`${md(i.deadline)} 截止`}</span>`);}
+  if(isTemp(i)) t.push('<span class="tag tmp">代理／代課</span>');
+  const sub=[i.salary,i.exam_date&&`甄試 ${md(i.exam_date)}`,i.period&&`聘期 ${i.period}`,i.note,i.manual&&'10/19 人工整理'].filter(Boolean).map(esc).join('・');
+  return `<li><a href="${esc(i.url)}" target="_blank" rel="noopener"><span class="src">${esc(i.source)}</span><span class="jt">${esc(i.title)}${t.join('')}<small>${sub}</small></span><span class="go">›</span></a></li>`;
+}
+function schoolCard(g){
+  return `<div class="panel school"><div class="top"><div><span class="kind" style="background:${g.kind.color}">${g.kind.name}</span><span class="name">${esc(g.name)}</span></div><div class="sal">${esc(g.sal)}</div></div>
+  ${g.place?`<div class="place">${esc(g.place)}</div>`:''}<ul class="jobs">${g.items.map(jobRow).join('')}</ul></div>`;
+}
+
+let ALL=[],FILTER='all';
+function render(){
+  let gs=groupSchools(ALL);
+  if(FILTER==='rec') gs=gs.filter(g=>g.kind.id<=3);
+  if(FILTER==='due') gs=gs.filter(g=>g.deadline);
+  if(!gs.length){document.getElementById('list').innerHTML='<p class="empty">沒有符合的職缺。</p>';return;}
+  let html='';
+  for(const k of KINDS){
+    const part=gs.filter(g=>g.kind===k); if(!part.length) continue;
+    const head=`<span class="dot" style="background:${k.color}"></span>${k.name}・${part.length} 家`;
+    const body=part.map(schoolCard).join('');
+    html+=k.id<=3||FILTER!=='all'?`<h3>${head}</h3>${body}`:`<details class="grp"><summary><h3>${head}<span class="open">展開</span></h3></summary>${body}</details>`;
+  }
+  document.getElementById('list').innerHTML=html;
+}
+document.getElementById('seg').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  FILTER=b.dataset.f; document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x===b)); render();
 });
+
+Promise.all([
+  fetch('data.json?'+Date.now()).then(r=>r.json()).catch(()=>({items:[],notices:[],errors:['資料載入失敗']})),
+  fetch('snapshot.json?'+Date.now()).then(r=>r.json()).catch(()=>({items:[]})),
+]).then(([d,s])=>{
+  document.getElementById('upd').textContent=` 自動更新：${d.updated_at||'—'}`;
+  const snap=s.items.map(i=>({...i,manual:true}));
+  ALL=[...d.items,...snap];
+  document.getElementById('picks').innerHTML=snap.filter(i=>i.pick).map(i=>{
+    const k=kindOf([i.school,i.org,i.title,i.note].join(' '));
+    return `<a class="panel pick" href="${esc(i.url)}" target="_blank" rel="noopener"><div class="row"><b>${esc(i.school)}</b><span class="sal">${esc(i.salary.replace('月薪 ',''))}</span></div>
+    <div class="why"><span class="kind" style="background:${k.color}">${k.name}</span>${esc([i.note,i.place].filter(Boolean).join('・'))}</div></a>`;}).join('');
+  render();
+  document.getElementById('srcnote').textContent=`人才庫、518 每天自動更新；104、1111 無法自動抓，清單是 ${s.taken_at||''} 人工整理，最新的請按上面兩個按鈕。${d.errors?.length?'（今天部分來源抓取失敗：'+d.errors.join('；')+'）':''}`;
+  const notes=d.notices||[];
+  document.getElementById('notes').innerHTML=notes.length?notes.map(n=>`<li><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a></li>`).join(''):'<li class="empty">目前沒有相關公告。</li>';
+});
+
+/* ---------- 考試時程 ---------- */
+const EXAMS=[
+  {name:'公幼契約進用教保員甄選',short:'公幼教保員',color:'var(--gov)',reg:[4],exam:[5,6],
+   when:'明年就能考',dates:[['簡章','約 4 月公告（114 年是 4/18）'],['筆試','5 月（115 年 5/24）'],['複試','6 月（115 年 6/28）'],['分發','7 月中線上選填志願']],
+   link:'https://kidedu.ntpc.edu.tw/p/406-1000-14819,r9.php'},
+  {name:'幼教專班',short:'幼教專班',color:'var(--qp)',reg:[],exam:[],
+   when:'教保員滿 3 年後',dates:[['招生','各師培大學自己招生，沒有固定月份'],['內容','約 18 學分，部分學校要考教學演示']],
+   link:'https://tutlaws.tut.edu.tw/Uploads/20220412223448-%E5%B9%BC%E5%85%92%E5%9C%92%E5%9C%A8%E8%81%B7%E4%BA%BA%E5%93%A1%E4%BF%AE%E7%BF%92%E5%B9%BC%E5%85%92%E5%9C%92%E6%95%99%E5%B8%AB%E5%B8%AB%E8%B3%87%E8%81%B7%E5%89%8D%E6%95%99%E8%82%B2%E8%AA%B2%E7%A8%8B%E8%BE%A6%E6%B3%95.pdf'},
+  {name:'教師資格考試（教檢）',short:'教檢',color:'var(--np)',reg:[3,4],exam:[6],
+   when:'修完幼教專班後',dates:[['報名','約春天'],['考試','6 月（115 年 6/14，各類科同一天）'],['放榜','7 月底（115 年 7/29）'],['通過率','115 年 55.8%']],
+   link:'https://teachernet.moe.edu.tw/storage/files/4P7Hm062spFpSdzMAkh8V1iLEkblWBHvzTCmAKIB.pdf'},
+  {name:'新北市幼兒園教師甄選（教甄）',short:'教甄',color:'var(--hot)',reg:[3,4],exam:[5],
+   when:'通過教檢、實習後',dates:[['簡章','3 月底公告（115 年 3/31）'],['報名','4 月中（115 年 4/17–4/23）'],['初試','5 月（115 年 5/17）'],['複試','初試後，依簡章']],
+   link:'https://udn.com/news/story/6885/9414528'},
+];
+(function(){
+  const M=[1,2,3,4,5,6,7,8,9,10,11,12];
+  let h='<table><tr><th></th>'+M.map(m=>`<th>${m}月</th>`).join('')+'</tr>';
+  for(const e of EXAMS){
+    if(!e.exam.length&&!e.reg.length){h+=`<tr><td class="lbl">${e.short}</td><td colspan="12" style="color:var(--muted);text-align:center;font-size:12px">各校不同，沒有固定月份</td></tr>`;continue;}
+    h+=`<tr><td class="lbl">${e.short}</td>`+M.map(m=>{
+      const bar=e.exam.includes(m)?`<div class="bar" style="background:${e.color}">考</div>`:e.reg.includes(m)?`<div class="bar reg" style="background:${e.color}"></div>`:'';
+      return `<td class="${m===thisMonth?'now':''}">${bar}</td>`;
+    }).join('')+'</tr>';
+  }
+  document.getElementById('tl').innerHTML=h+'</table>';
+  document.getElementById('examlist').innerHTML=EXAMS.map(e=>`<div class="panel exam"><div class="top"><b><i style="background:${e.color}"></i>${e.name}</b><span class="when">${e.when}</span></div>
+    <dl>${e.dates.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl><a href="${e.link}" target="_blank" rel="noopener">來源 ›</a></div>`).join('');
+  const y=+today.slice(0,4)+(thisMonth>4?1:0);
+  const left=Math.max(0,Math.round(days(today,`${y}-04-01`)/30));
+  document.getElementById('next').innerHTML=`<div class="k">下一個要準備</div><b>公幼契約進用教保員甄選</b><span>${y} 年 4 月公告簡章、5 月筆試，${left?`還有約 ${left} 個月`:'就是這個月'}。行事曆已設 ${y}/4/1 提醒。</span>`;
+})();
+
+/* ---------- 路線 ---------- */
+document.getElementById('steps').innerHTML=[
+  ['在幼兒園當專任教保員','月薪、專任，累積滿 3 年（最好先考上公幼契約教保員）',true],
+  ['報名幼教專班','約 18 學分，修完拿到修畢證明'],
+  ['考教師資格考試（教檢）','每年 6 月'],
+  ['教育實習半年','近 7 年實際教學滿 3 年、表現優良可申請免修'],
+  ['考幼兒園教師甄選（教甄）','新北市每年 5 月初試 → 正式公幼教師'],
+].map(([b,s,cur],i)=>`<li class="${cur?'cur':''}"><span class="n">${i+1}</span><b>${b}${cur?'<span class="here">← 現在</span>':''}</b><span>${s}</span></li>`).join('');
+
+/* ---------- 分頁高亮 ---------- */
+const links=[...document.querySelectorAll('nav a')];
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting) links.forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id));}),{rootMargin:'-40% 0px -55% 0px'});
+document.querySelectorAll('section').forEach(s=>io.observe(s));
 </script>
 </body>
 </html>
