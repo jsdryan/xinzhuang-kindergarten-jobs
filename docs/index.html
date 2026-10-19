@@ -95,6 +95,10 @@ h3 .dot{width:10px;height:10px;border-radius:50%}
 .legend{display:flex;gap:14px;color:var(--muted);font-size:13px;margin:8px 4px 4px;flex-wrap:wrap}
 .legend i{display:inline-block;width:14px;height:10px;border-radius:3px;background:var(--accent);margin-right:5px}
 .legend i.reg{opacity:.4}
+.bar.est{border:2px dashed color-mix(in srgb,var(--c) 70%,var(--ink))}
+.yr{font-size:14px;color:var(--muted);margin-top:4px}
+.tag.ok{background:var(--accent-soft);color:var(--accent)}
+.tag.estt{border:1px dashed var(--faint);color:var(--muted);font-weight:400}
 .exam{padding:14px 16px;margin:10px 0}
 .exam .top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
 .exam b{font-size:16px}
@@ -162,11 +166,12 @@ footer{color:var(--faint);font-size:13px;padding:24px 0 48px;border-top:1px soli
 
 <section id="exams">
   <h2>考試時程</h2>
-  <p class="lead">幾乎都擠在 5～7 月。日期以 115 年（2026）為例，每年大致相同。</p>
+  <p class="lead">幾乎都擠在 3～7 月。</p>
   <div class="panel next" id="next"></div>
   <div class="panel tl" id="tl"></div>
-  <div class="legend"><span>淺色格＝簡章公告或報名</span><span>深色「考」＝考試</span><span>灰底＝現在這個月</span></div>
+  <div class="legend"><span>淺色格＝簡章／報名／放榜</span><span>深色「考」＝考試</span><span>虛線框＝預估</span><span>灰底＝現在</span></div>
   <div id="examlist"></div>
+  <p class="fine" id="examcheck"></p>
 </section>
 
 <section id="path">
@@ -275,38 +280,57 @@ Promise.all([
   document.getElementById('notes').innerHTML=notes.length?notes.map(n=>`<li><a href="${esc(n.url)}" target="_blank" rel="noopener">${esc(n.title)}</a></li>`).join(''):'<li class="empty">目前沒有相關公告。</li>';
 });
 
-/* ---------- 考試時程 ---------- */
-const EXAMS=[
-  {name:'公幼契約進用教保員甄選',short:'公幼教保員',color:'var(--gov)',reg:{4:'簡章'},exam:[5,6],
-   when:'明年就能考',dates:[['簡章','約 4 月公告（114 年是 4/18）'],['筆試','5 月（115 年 5/24）'],['複試','6 月（115 年 6/28）'],['分發','7 月中線上選填志願']],
-   link:'https://kidedu.ntpc.edu.tw/p/406-1000-14819,r9.php'},
-  {name:'幼教專班',short:'幼教專班',color:'var(--qp)',reg:{},exam:[],
-   when:'教保員滿 3 年後',dates:[['招生','各師培大學自己招生，沒有固定月份'],['內容','約 18 學分，部分學校要考教學演示']],
-   link:'https://tutlaws.tut.edu.tw/Uploads/20220412223448-%E5%B9%BC%E5%85%92%E5%9C%92%E5%9C%A8%E8%81%B7%E4%BA%BA%E5%93%A1%E4%BF%AE%E7%BF%92%E5%B9%BC%E5%85%92%E5%9C%92%E6%95%99%E5%B8%AB%E5%B8%AB%E8%B3%87%E8%81%B7%E5%89%8D%E6%95%99%E8%82%B2%E8%AA%B2%E7%A8%8B%E8%BE%A6%E6%B3%95.pdf'},
-  {name:'教師資格考試（教檢）',short:'教檢',color:'var(--np)',reg:{3:'簡章',4:'報名'},exam:[6],
-   when:'修完幼教專班後',dates:[['簡章','3 月底公告（115 年 3/27）'],['報名','4 月（115 年 4/9–4/16）'],['考試','6 月（115 年 6/14，各類科同一天）'],['放榜','7 月底（115 年 7/29）'],['通過率','115 年 55.8%']],
-   link:'https://teachernet.moe.edu.tw/storage/files/4P7Hm062spFpSdzMAkh8V1iLEkblWBHvzTCmAKIB.pdf'},
-  {name:'新北市幼兒園教師甄選（教甄）',short:'教甄',color:'var(--hot)',reg:{3:'簡章',4:'報名'},exam:[5],
-   when:'通過教檢、實習後',dates:[['簡章','3 月底公告（115 年 3/31）'],['報名','4 月中（115 年 4/17–4/23）'],['初試','5 月（115 年 5/17）'],['複試','初試後，依簡章']],
-   link:'https://udn.com/news/story/6885/9414528'},
+/* ---------- 考試時程（docs/exams.json，每天自動更新） ---------- */
+const EXAM_META=[
+  {id:'kg_staff',name:'新北市公幼契約進用教保員甄選',short:'公幼教保員',color:'var(--gov)',when:'明年就能考'},
+  {id:'program',name:'幼教專班',short:'幼教專班',color:'var(--qp)',when:'教保員滿 3 年後',static:[['招生','各師培大學自己招生，沒有固定月份'],['內容','約 18 學分，部分學校要考教學演示']],link:'https://tutlaws.tut.edu.tw/Uploads/20220412223448-%E5%B9%BC%E5%85%92%E5%9C%92%E5%9C%A8%E8%81%B7%E4%BA%BA%E5%93%A1%E4%BF%AE%E7%BF%92%E5%B9%BC%E5%85%92%E5%9C%92%E6%95%99%E5%B8%AB%E5%B8%AB%E8%B3%87%E8%81%B7%E5%89%8D%E6%95%99%E8%82%B2%E8%AA%B2%E7%A8%8B%E8%BE%A6%E6%B3%95.pdf'},
+  {id:'qualify',name:'教師資格考試（教檢）',short:'教檢',color:'var(--np)',when:'修完幼教專班後'},
+  {id:'teacher_hire',name:'新北市幼兒園教師甄選（教甄）',short:'教甄',color:'var(--hot)',when:'通過教檢、實習後'},
 ];
-(function(){
+const KIND_LABEL={exam:'考',register:'報名',notice:'簡章',result:'榜'};
+const KIND_RANK={exam:4,register:3,notice:2,result:1};
+const mdd=d=>`${+d.slice(5,7)}/${+d.slice(8,10)}`;
+const range=e=>e.end?`${mdd(e.start)}–${mdd(e.end)}`:mdd(e.start);
+const cleanLabel=l=>l.replace(/時間$/,'').replace(/網路/,'');
+fetch('exams.json?'+Date.now()).then(r=>r.json()).then(X=>{
+  const up=X.upcoming||{};
   const M=[1,2,3,4,5,6,7,8,9,10,11,12];
   let h='<table><tr><th></th>'+M.map(m=>m===thisMonth?`<th class="now"><span>現在</span>${m}月</th>`:`<th>${m}月</th>`).join('')+'</tr>';
-  for(const e of EXAMS){
-    const sub=!e.exam.length&&!Object.keys(e.reg).length?'<small>各校不同，無固定月份</small>':'';
-    h+=`<tr><td class="lbl">${e.short}${sub}</td>`+M.map(m=>{
-      const bar=e.exam.includes(m)?`<div class="bar" style="background:${e.color}">考</div>`:e.reg[m]?`<div class="bar reg" style="--c:${e.color}">${e.reg[m]}</div>`:'';
-      return `<td class="${m===thisMonth?'now':''}">${bar}</td>`;
+  for(const meta of EXAM_META){
+    const u=up[meta.id];
+    if(!u||!u.events?.length){h+=`<tr><td class="lbl">${meta.short}<small>各校不同，無固定月份</small></td>${M.map(m=>`<td class="${m===thisMonth?'now':''}"></td>`).join('')}</tr>`;continue;}
+    const cell={};
+    for(const e of u.events){
+      const a=+e.start.slice(5,7),b=+(e.end||e.start).slice(5,7);
+      for(let m=a;m<=b;m++){const c=cell[m];if(!c||KIND_RANK[e.kind]>KIND_RANK[c.kind]) cell[m]={kind:e.kind,est:e.est};}
+    }
+    h+=`<tr><td class="lbl">${meta.short}</td>`+M.map(m=>{
+      const c=cell[m]; if(!c) return `<td class="${m===thisMonth?'now':''}"></td>`;
+      const cls=c.kind==='exam'?'bar':'bar reg';
+      return `<td class="${m===thisMonth?'now':''}"><div class="${cls}${c.est?' est':''}" style="--c:${meta.color};background:${meta.color}">${KIND_LABEL[c.kind]}</div></td>`;
     }).join('')+'</tr>';
   }
   document.getElementById('tl').innerHTML=h+'</table>';
-  document.getElementById('examlist').innerHTML=EXAMS.map(e=>`<div class="panel exam"><div class="top"><b><i style="background:${e.color}"></i>${e.name}</b><span class="when">${e.when}</span></div>
-    <dl>${e.dates.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl><a href="${e.link}" target="_blank" rel="noopener">來源 ›</a></div>`).join('');
-  const y=+today.slice(0,4)+(thisMonth>4?1:0);
-  const left=Math.max(0,Math.round(days(today,`${y}-04-01`)/30));
-  document.getElementById('next').innerHTML=`<div class="k">下一個要準備</div><b>公幼契約進用教保員甄選</b><span>${y} 年 4 月公告簡章、5 月筆試，${left?`還有約 ${left} 個月`:'就是這個月'}。行事曆已設 ${y}/4/1 提醒。</span>`;
-})();
+
+  document.getElementById('examlist').innerHTML=EXAM_META.map(meta=>{
+    const u=up[meta.id];
+    if(!u||!u.events?.length) return `<div class="panel exam"><div class="top"><b><i style="background:${meta.color}"></i>${meta.name}</b><span class="when">${meta.when}</span></div>
+      <dl>${(meta.static||[]).map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>${meta.link?`<a href="${meta.link}" target="_blank" rel="noopener">來源 ›</a>`:''}</div>`;
+    const est=u.events.filter(e=>e.est).length, all=u.events.length;
+    const status=est===0?'<span class="tag ok">已公告</span>':est===all?'<span class="tag estt">預估</span>':'<span class="tag estt">部分預估</span>';
+    const rows=u.events.filter(e=>!/繳費/.test(e.label)).map(e=>`<dt>${esc(cleanLabel(e.label))}</dt><dd>${u.year+1911}/${range(e)}${e.est?' <span class="tag estt">預估</span>':''}</dd>`).join('');
+    return `<div class="panel exam"><div class="top"><b><i style="background:${meta.color}"></i>${meta.name}</b><span class="when">${meta.when}</span></div>
+      <div class="yr">${u.year} 年度（${u.year+1911}）${status}</div><dl>${rows}</dl>
+      ${u.source?`<a href="${esc(u.source)}" target="_blank" rel="noopener">${est?'去年簡章（推估依據）':'官方簡章'} ›</a>`:''}</div>`;
+  }).join('');
+  document.getElementById('examcheck').textContent=`日程每天自動檢查官方公告（最後檢查：${X.checked_at}）。標「預估」的是用去年日期推算，官方一公告就會自動換成正式日期。`;
+
+  const k=up.kg_staff, nx=(k?.events||[]).find(e=>(e.end||e.start)>=today);
+  if(nx){
+    const left=Math.max(0,Math.round(days(today,nx.start)/30));
+    document.getElementById('next').innerHTML=`<div class="k">下一個要準備</div><b>公幼契約進用教保員甄選</b><span>${nx.est?'約 ':''}${nx.start.slice(0,4)}/${mdd(nx.start)} ${esc(cleanLabel(nx.label))}${nx.est?'（預估）':''}，${left?`還有約 ${left} 個月`:'就在這個月'}。行事曆已設 2027/4/1 提醒。</span>`;
+  }
+});
 
 /* ---------- 路線 ---------- */
 document.getElementById('steps').innerHTML=[

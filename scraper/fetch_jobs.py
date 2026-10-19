@@ -19,6 +19,8 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+import fetch_exams
+
 TW = timezone(timedelta(hours=8))
 UA = "Mozilla/5.0 (compatible; xinzhuang-kindergarten-jobs/1.0; +https://github.com/jsdryan/xinzhuang-kindergarten-jobs)"
 OUT = Path(__file__).resolve().parent.parent / "docs" / "data.json"
@@ -170,6 +172,11 @@ def main() -> int:
     for n in notices:
         n["first_seen"] = first_seen_n.get(n["url"], today)
     items.sort(key=lambda i: (i.get("deadline") or "9999", i["first_seen"]), reverse=False)
+
+    try:
+        errors += fetch_exams.update(get, today)
+    except Exception as e:
+        errors.append(f"考試日程: {e}")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({
