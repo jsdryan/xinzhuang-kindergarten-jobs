@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-20 06:30",
+ "updated_at": "2026-10-21 06:30",
  "items": [
   {
    "source": "人才庫",
@@ -130,6 +130,21 @@
    "tags": [],
    "url": "https://hr.k12ea.gov.tw/ecehr/JobVacancy/Detail?ID=8b61df1e-a0cf-4772-8015-19293e4435e8",
    "first_seen": "2026-08-03"
+  },
+  {
+   "source": "人才庫",
+   "title": "教保員 2 名",
+   "org": "新北市私立僑治亞頭前幼兒園",
+   "salary": "登入人才庫後查看",
+   "place": "新北市新莊區頭前里4鄰化成路540之2號(1樓)",
+   "posted": "2026-07-15",
+   "deadline": null,
+   "exam_date": null,
+   "period": "",
+   "vacancy_type": "正式",
+   "tags": [],
+   "url": "https://hr.k12ea.gov.tw/ecehr/JobVacancy/Detail?ID=a46aea25-52a8-494e-b4be-c5e150748632",
+   "first_seen": "2026-07-15"
   },
   {
    "source": "518",
