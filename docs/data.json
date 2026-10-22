@@ -1,23 +1,6 @@
 {
- "updated_at": "2026-10-22 06:30",
+ "updated_at": "2026-10-23 06:30",
  "items": [
-  {
-   "source": "人才庫",
-   "title": "教保員 2 名",
-   "org": "新北市私立喬聖幼兒園",
-   "salary": "登入人才庫後查看",
-   "place": "新北市新莊區昌信里17鄰中原路135號1樓、137號2樓之1",
-   "posted": "2026-10-12",
-   "deadline": "2026-10-22",
-   "exam_date": "2026-10-23",
-   "period": "",
-   "vacancy_type": "正式",
-   "tags": [
-    "代理缺額"
-   ],
-   "url": "https://hr.k12ea.gov.tw/ecehr/JobVacancy/Detail?ID=734d6aec-0d44-4d89-bb23-c87a08c01401",
-   "first_seen": "2026-10-12"
-  },
   {
    "source": "人才庫",
    "title": "教保員 1 名",
@@ -169,5 +152,7 @@
    "first_seen": "2026-10-19"
   }
  ],
- "errors": []
+ "errors": [
+  "幼教專班 國立臺灣師範大學: <urlopen error [Errno -3] Try again>"
+ ]
 }
