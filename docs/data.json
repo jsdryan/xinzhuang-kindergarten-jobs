@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-10-23 06:30",
+ "updated_at": "2026-10-24 06:30",
  "items": [
   {
    "source": "人才庫",
@@ -140,19 +140,6 @@
    "first_seen": "2026-10-19"
   }
  ],
- "notices": [
-  {
-   "title": "轉知115學年度幼教專班教學演示能力檢測報名",
-   "url": "https://kidedu.ntpc.edu.tw/p/406-1000-15051,r9.php",
-   "first_seen": "2026-10-19"
-  },
-  {
-   "title": "新北市115學年度公立幼兒園契約進用教保員甄選複試暨加置照顧服務人員甄選教學演示題目及提醒事項",
-   "url": "https://kidedu.ntpc.edu.tw/p/406-1000-15047,r9.php",
-   "first_seen": "2026-10-19"
-  }
- ],
- "errors": [
-  "幼教專班 國立臺灣師範大學: <urlopen error [Errno -3] Try again>"
- ]
+ "notices": [],
+ "errors": []
 }
