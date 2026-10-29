@@ -180,7 +180,7 @@ footer{color:var(--faint);font-size:12px;padding:8px 0 40px}
 <main class="wrap">
 
 <section class="page on" id="jobs">
-  <h2>這週先投</h2>
+  <h2>這週先投 <small id="snapdate"></small></h2>
   <div id="picks"></div>
   <h2>其他推薦 <small>非營利・準公共</small></h2>
   <div class="card rows" id="rec"></div>
@@ -273,6 +273,7 @@ Promise.all([
   fetch('snapshot.json?'+Date.now()).then(r=>r.json()).catch(()=>({items:[]})),
 ]).then(([d,s])=>{
   $('upd').textContent=`每天早上自動更新・最後更新 ${(d.updated_at||'').slice(5).replace('-','/')}`;
+  if(s.taken_at)$('snapdate').textContent=`104 人工整理・${s.taken_at.slice(5).replace('-','/')}，不會每天自動換`;
   const snap=s.items.map(i=>({...i,manual:true}));
   const picks=snap.filter(i=>i.pick);
   const pickSchools=new Set(picks.map(schoolKey));
