@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-03 06:30",
+ "updated_at": "2026-11-04 06:30",
  "items": [
   {
    "source": "人才庫",
@@ -90,7 +90,5 @@
   }
  ],
  "notices": [],
- "errors": [
-  "人才庫: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
- ]
+ "errors": []
 }
