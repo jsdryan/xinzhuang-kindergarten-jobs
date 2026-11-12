@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-12 06:30",
+ "updated_at": "2026-11-13 06:30",
  "items": [
   {
    "source": "人才庫",
@@ -90,5 +90,7 @@
   }
  ],
  "notices": [],
- "errors": []
+ "errors": [
+  "幼教專班 國立臺灣師範大學: HTTP Error 500: Internal Server Error"
+ ]
 }
