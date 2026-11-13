@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-13 06:30",
+ "checked_at": "2026-11-14 06:30",
  "upcoming": {
   "year": 116,
   "source": "https://child.cyc.edu.tw/modules/tadnews/index.php?nsn=2365",
@@ -153,7 +153,5 @@
    ]
   }
  ],
- "errors": [
-  "幼教專班 國立臺灣師範大學: HTTP Error 500: Internal Server Error"
- ]
+ "errors": []
 }
